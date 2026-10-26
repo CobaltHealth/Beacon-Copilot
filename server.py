@@ -5,18 +5,19 @@ from fastmcp import FastMCP
 # Initialize the MCP server
 mcp = FastMCP("Beacon CRM Bridge")
 
-BEACON_API_BASE = os.getenv("BEACON_API_BASE", "https://api.beaconcrm.io/v1")
+BEACON_API_BASE = os.getenv("BEACON_API_BASE", "https://api.beaconcrm.org/v1/account/32207")
 BEACON_API_KEY = os.getenv("BEACON_API_KEY")
 
 @mcp.tool()
 async def search_beacon_contacts(query: str) -> str:
     """
-    Search for contacts in Beacon CRM by name, email, or keyword.
+    Search for contacts/persons in Beacon CRM by name, email, or keyword.
     
     Args:
         query: The search term or email to look up.
     """
-    url = f"{BEACON_API_BASE}/people"
+    # Matches the path shown in Beacon's developer docs: /entities/person
+    url = f"{BEACON_API_BASE}/entities/person"
     headers = {
         "Authorization": f"Bearer {BEACON_API_KEY}",
         "Accept": "application/json"
